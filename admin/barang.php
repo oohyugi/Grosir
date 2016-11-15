@@ -27,7 +27,7 @@ include 'header.php';
 // });
 
 $(document).ready(function() {
-    $('#example1').DataTable( {
+    $('#example').DataTable( {
         "ajax": 'http://localhost/kios/admin/api/stok_barang.php'
     } );
 } );
@@ -70,17 +70,62 @@ $(document).ready(function() {
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
+                <th>No</th>
                   <th>Nama Barang</th>
                   <th>Pabrik</th>
                   <th>Jumlah barang</th>
                   <th>Modal</th>
-                  <th>Harga Atas</th>
                   <th>Harga Bawah</th>
+                  <th>Harga Atas</th>
+                  
                   
                 </tr>
                 </thead>
                 <tbody>
-            
+            <?php 
+		include "config.php";
+
+		$hasil="SELECT * FROM stok_gudangs";
+		$query=mysqli_query($koneksi,$hasil)or die(mysql_error());
+	
+		if ($query) {
+				# code...
+				$nomor=1;
+				foreach ($query as $value) {
+				# code...
+					if ($value['jumlah_barang'] >=12 ) {
+               // $jumlah_barang = (number_format($value->jumlah_barang/12,0))." Lusin";
+
+               $lusin = (floor($value['jumlah_barang']/12));
+               $pcs = ($value['jumlah_barang']%12);
+               if ($pcs != 0) {
+                    $jumlah_barang = $lusin. " Lusin  "."+  ". $pcs. " Pcs";
+               }else{
+                $jumlah_barang = $lusin. " Lusin  ";
+               }
+              
+
+
+            }else{
+                $jumlah_barang = ($value['jumlah_barang']). " Pcs"; 
+            }
+              //Format uang
+            $harga_bawah ="Rp. ".number_format($value['harga_bawah'],'0',',','.')."-";
+             $harga_atas = "Rp. ".number_format($value['harga_atas'],'0',',','.')."-";
+             $modal = "Rp. ".number_format($value['modal'],'0',',','.')."-";
+			
+		?>
+		<tr>
+		<td> <?php echo $nomor++; ?></td>
+			<td> <?php echo $value['nama_barang']; ?></td>
+			<td> <?php echo $value['pabrik']; ?></td>
+			<td> <?php echo $jumlah_barang; ?></td>
+			<td> <?php echo $modal; ?></td>
+			<td> <?php echo $harga_bawah; ?></td>
+			<td> <?php echo $harga_atas; ?></td>
+		</tr>
+
+		<?php }} ?>
                
               
                 

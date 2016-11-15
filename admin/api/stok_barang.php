@@ -17,23 +17,16 @@ $hasil="SELECT * FROM stok_gudangs";
 				foreach ($query as $value) {
 				# code...
 					
-				$beritas[]=array(
-					$value["nama_barang"],
-					$value["pabrik"],
-					$value["jumlah_barang"],
-					$value["modal"],
-					$value["harga_atas"],
-					$value["harga_bawah"],
-
-					
-
-
-					);
+				if ($value['jumlah_barang'] >=12) {
+						$lusin = (floor($value['jumlah_barang']/12));
+               			$pcs = ($value['jumlah_barang']%12);
+               			var_dump($lusin);
+					}
 			}
-			echo json_encode(array("data"=>$beritas)
+			// echo json_encode(array("data"=>$beritas)
 				
 			
-					);
+			// 		);
 			}else{
 				echo json_encode(
 				array(
